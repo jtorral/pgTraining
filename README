@@ -1,40 +1,67 @@
-#### To build the images, run ...
+# Docker containers for Postgres 16 training
 
-docker build -t pg16-rocky8-training .
+####  This Docker repo contains all the necessary packages to begin training for Postgres 16 including patroni, pgbouncer and pgbackrest.  
 
-#### Create the network if needed
+If you are running Docker and have the resources to host these on your laptop / pc feel free to set it up following the instructions below.
 
-docker network create pgnet
+### Clone this repo
 
-#### Run the db containers
-docker run -p 5411:5432 --ip 172.18.0.11  --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1-training --network=pgnet --name=pg1-training -d pg16-rocky8-training
-docker run -p 5412:5432 --ip 172.18.0.12  --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2-training --network=pgnet --name=pg2-training -d pg16-rocky8-training
+    git clone git@github.com:jtorral/pgTraining.git
 
-#### If you get a network error, identify  network settings for pgnet with a simple docker inspect and grep.
+### Build the image
 
-docker network inspect pgnet | grep Subnet
+    docker build -t pg16-rocky8-training .
 
-                    "Subnet": "172.20.0.0/16",
+### Create the network 
 
-#### Then the static IP's could be defined based on the above output. For example ...
+    docker network create --driver=bridge --subnet=172.18.0.0/16 pgnet
 
-docker run -p 5411:5432 --ip 172.20.0.11 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1-training --network=pgnet --name=pg1-training -d pg16-rocky8-training
-docker run -p 5412:5432 --ip 172.20.0.12 --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2-training --network=pgnet --name=pg2-training -d pg16-rocky8-training
+You can create the network above with your choice of subnet. For this example, I am using `172.18.0.0` if you change this, make the appropriate changes to the --ip option in the docker run commands  to reflect your custom subnet.
 
-#### use the differentip range for the remaining containers you start.
+You can always inspect a network and see the settings with docker inspect.  For example.
 
+List existing networks on your host
 
+docker network ls  
 
-# Run an extra container if instructed to do so
-docker run -p 5413:5432 --ip 172.18.0.13  --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3-training --network=pgnet --name=pg3-training -d pg16-rocky8-training
-
-# Run the container for pgbackrest
-docker run -p 5415:5432 --ip 172.18.0.15  --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -d pg16-rocky8-training
+|NETWORK| ID| NAMEDRIVER |SCOPE|
+|---|---|---|---|
+|4f664d36595d|pgnet|bridge|local|
+|78bd06f9260a|host|host|local|
 
 
-# Run the etcd containers if instructed to do so
-docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-training
-docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-training
 
-# Optionally, run a 3rd one
-docker run --hostname etcd3 --ip 172.18.0.23 --network=pgnet --name=etcd3 -d pg16-rocky8-training
+Then inspect the network with ...
+
+    docker network inspect pgnet | grep Subnet
+
+This will grep the json output for subnet and display the netwrk setting
+
+    "Subnet": "172.18.0.0/16",
+
+
+### Run the 1st db containers
+
+    docker run -p 5411:5432 --ip 172.18.0.11  --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1-training --network=pgnet --name=pg1-training -d pg16-rocky8-training
+
+### Run the 2nd db containers
+
+
+    docker run -p 5412:5432 --ip 172.18.0.12  --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2-training --network=pgnet --name=pg2-training -d pg16-rocky8-training
+
+
+### WAIT !!! IF Instructed to do so, run the 3rd db containers
+
+    docker run -p 5413:5432 --ip 172.18.0.13  --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3-training --network=pgnet --name=pg3-training -d pg16-rocky8-training
+
+### Run a container for the pgbackrest server
+
+    docker run -p 5415:5432 --ip 172.18.0.15  --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -d pg16-rocky8-training
+
+
+We will run the ETCD services on the same container as the database server.  If, we wanted them on separate conatiners we would run them like so
+
+### WAIT !!! If instructed to do so,  run the etcd containers
+
+    docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-training
+    docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-training
