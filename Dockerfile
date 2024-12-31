@@ -15,15 +15,17 @@ RUN \
   && dnf install -y iproute \
   && dnf install -y less \
   && dnf install -y watchdog \
-  && dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
-  && dnf -qy module disable postgresql \
-  && dnf install -y postgresql16-server \
   && dnf install -y epel-release \
   && dnf install -y libssh2 \
-  && dnf install -y pgbackrest \
-  && dnf install -y pgbouncer \
-  && dnf install -y patroni-etcd \
-  && dnf install -y haproxy 
+  && dnf -qy module disable postgresql \
+  && dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm \
+  && percona-release setup ppg16 \
+  && dnf install -y percona-postgresql16-server \
+  && dnf install -y percona-postgresql16-contrib \
+  && dnf install -y percona-pgbackrest \
+  && dnf install -y percona-pgbouncer \
+  && dnf install -y percona-patroni \
+  && dnf install -y percona-haproxy
   
 
 RUN mkdir -p /pgdata/16/
