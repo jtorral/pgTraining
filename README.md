@@ -1,6 +1,16 @@
 # Docker containers for Postgres 16 training
 
-####  This Docker repo contains all the necessary packages to begin training for Postgres 16 including patroni, pgbouncer and pgbackrest.  
+####  This Docker repo contains all the necessary packages to begin training for Postgres 16 including the following.  
+
+- postgresql16
+- patroni
+- pgbackrest
+- pgbouncer
+- haproxy 
+- pg_repack
+- pg_top
+- pg_activity
+
 
 If you are running Docker and have the resources to host these on your laptop / pc feel free to set it up following the instructions below.
 

@@ -23,7 +23,10 @@ RUN \
   && dnf install -y pgbackrest \
   && dnf install -y pgbouncer \
   && dnf install -y patroni-etcd \
-  && dnf install -y haproxy 
+  && dnf install -y haproxy \
+  && dnf install -y pg_repack_16 \
+  && dnf install -y pg_top \
+  && dnf install -y pg_activity 
   
 
 RUN mkdir -p /pgdata/16/
