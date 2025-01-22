@@ -70,7 +70,7 @@ This will grep the json output for subnet and display the netwrk setting
 
 
 
-### WAIT !!! Don't start the following containers are optional. ### 
+### WAIT !!! Don't start the following containers unless you want to. They are optional. ### 
 
 
 ### Run a container for the pgbackrest server
