@@ -14,6 +14,10 @@
 
 If you are running Docker and have the resources to host these on your laptop / pc feel free to set it up following the instructions below.
 
+### Further down on this page are cleanup steps for removing after you are done.
+
+
+
 ### Clone this repo
 
     git clone git@github.com:jtorral/pgTraining.git
@@ -60,9 +64,14 @@ This will grep the json output for subnet and display the netwrk setting
     docker run -p 5412:5432 --ip 172.18.0.12  --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2 --network=pgnet --name=pg2 -d pg16-rocky8-pg16-bundle
 
 
-### WAIT !!! IF Instructed to do so, run the 3rd db containers
+### Run the 3rd db containers
 
     docker run -p 5413:5432 --ip 172.18.0.13  --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3 --network=pgnet --name=pg3 -d pg16-rocky8-pg16-bundle
+
+
+
+## WAIT !!! The following containers are optional for different training or if instructed to do so## 
+
 
 ### Run a container for the pgbackrest server
 
@@ -71,7 +80,46 @@ This will grep the json output for subnet and display the netwrk setting
 
 We will run the ETCD services on the same container as the database server.  If, we wanted them on separate conatiners we would run them like so
 
-### WAIT !!! If instructed to do so,  run the etcd containers
-
     docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-pg16-bundle
     docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-pg16-bundle
+
+
+### How to cleanup afterwards ###
+
+If you wish to cleanup the docker containers afterwards you will need to stop them and remove them.
+You can leave the volumes in place if you want the data saved or you can remove them as well. It is all detailed below
+
+
+
+For example, if we are running just the 1 container pg1 and want to remove it ...
+
+
+    docker stop pg1
+    docker rm pg1
+
+
+Then identify the volumes used by it
+
+    docker volume ls
+
+
+|DRIVER|    VOLUME NAME|
+|---|---|
+|local|pg1-pgdata|
+|local|pgDipper-etc|
+|local|pgDipper-home|
+|local|pgDipper-pgdata|
+
+
+Remove the volume if you want it gone for good.
+
+    docker volume rm pg1-data
+
+There may be additional volumes if you started the other containers
+
+Finally, if you want to remove the network created earlier then run ...
+
+    docker network rm pgnet
+
+
+
