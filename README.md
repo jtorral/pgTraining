@@ -70,7 +70,7 @@ This will grep the json output for subnet and display the netwrk setting
 
 
 
-## WAIT !!! The following containers are optional for different training or if instructed to do so## 
+### WAIT !!! The following containers are optional for different training or if instructed to do so### 
 
 
 ### Run a container for the pgbackrest server
@@ -82,6 +82,9 @@ We will run the ETCD services on the same container as the database server.  If,
 
     docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-pg16-bundle
     docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-pg16-bundle
+
+
+
 
 
 ### How to cleanup afterwards ###
