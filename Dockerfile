@@ -18,6 +18,7 @@ RUN \
   && dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
   && dnf -qy module disable postgresql \
   && dnf install -y postgresql16-server \
+  && dnf install -y postgresql16-contrib \
   && dnf install -y epel-release \
   && dnf install -y libssh2 \
   && dnf install -y pgbackrest \
