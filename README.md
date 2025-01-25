@@ -24,7 +24,7 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 ### Build the image
 
-    docker build -t pg16-rocky8-pg16-bundle .
+    docker build -t pg16-rocky8-bundle .
 
 ### Create the network 
 
@@ -56,17 +56,17 @@ This will grep the json output for subnet and display the netwrk setting
 
 ### Run the 1st db containers
 
-    docker run -p 5411:5432 --ip 172.18.0.11  --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -d pg16-rocky8-pg16-bundle
+    docker run -p 5411:5432 --ip 172.18.0.11  --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -d pg16-rocky8-bundle
 
 ### Run the 2nd db containers
 
 
-    docker run -p 5412:5432 --ip 172.18.0.12  --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2 --network=pgnet --name=pg2 -d pg16-rocky8-pg16-bundle
+    docker run -p 5412:5432 --ip 172.18.0.12  --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2 --network=pgnet --name=pg2 -d pg16-rocky8-bundle
 
 
 ### Run the 3rd db containers
 
-    docker run -p 5413:5432 --ip 172.18.0.13  --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3 --network=pgnet --name=pg3 -d pg16-rocky8-pg16-bundle
+    docker run -p 5413:5432 --ip 172.18.0.13  --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3 --network=pgnet --name=pg3 -d pg16-rocky8-bundle
 
 
 
@@ -75,13 +75,13 @@ This will grep the json output for subnet and display the netwrk setting
 
 ### Run a container for the pgbackrest server
 
-    docker run -p 5415:5432 --ip 172.18.0.15  --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -d pg16-rocky8-pg16-bundle
+    docker run -p 5415:5432 --ip 172.18.0.15  --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -d pg16-rocky8-bundle
 
 
 We will run the ETCD services on the same container as the database server.  If, we wanted them on separate conatiners we would run them like so
 
-    docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-pg16-bundle
-    docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-pg16-bundle
+    docker run --hostname etcd1 --ip 172.18.0.21 --network=pgnet --name=etcd1 -d pg16-rocky8-bundle
+    docker run --hostname etcd2 --ip 172.18.0.22 --network=pgnet --name=etcd2 -d pg16-rocky8-bundle
 
 
 
