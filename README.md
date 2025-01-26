@@ -1,4 +1,4 @@
-# Docker containers for Postgres 16 pg16-bundle
+# Docker containers for Postgres. pg16-bundle
 
 ####  This Docker repo contains a bunch of Postgres related packages. View the Dockerfile for a complete list of what is installed.
 
