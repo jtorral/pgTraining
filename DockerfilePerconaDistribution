@@ -1,0 +1,50 @@
+FROM rockylinux:8
+
+RUN \
+  dnf -y update \
+  && dnf install -y wget \
+  && dnf install -y curl \
+  && dnf install -y jq \
+  && dnf install -y vim \
+  && dnf install -y sudo \
+  && dnf install -y gnupg \
+  && dnf install -y openssh-server \
+  && dnf install -y openssh-clients \
+  && dnf install -y procps-ng \
+  && dnf install -y net-tools \
+  && dnf install -y iproute \
+  && dnf install -y less \
+  && dnf install -y watchdog \
+  && dnf install -y epel-release \
+  && dnf install -y libssh2 \
+  && dnf -qy module disable postgresql \
+  && dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm \
+  && percona-release setup ppg16 \
+  && dnf install -y percona-postgresql16-server \
+  && dnf install -y percona-postgresql16-contrib \
+  && dnf install -y percona-pgbackrest \
+  && dnf install -y percona-pgbouncer \
+  && dnf install -y percona-patroni \
+  && dnf install -y percona-haproxy
+  
+
+RUN mkdir -p /pgdata/16/
+RUN chown -R postgres:postgres /pgdata
+RUN chmod 0700 /pgdata
+
+COPY pg_custom.conf /
+COPY pg_hba.conf /
+COPY pgsqlProfile /
+COPY photos.sql /
+COPY id_rsa /
+COPY id_rsa.pub /
+COPY authorized_keys /
+
+EXPOSE 22 80 443 5432 2379 2380 8432 5000 5001
+
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh 
+
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT /entrypoint.sh

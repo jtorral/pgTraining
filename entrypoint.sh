@@ -25,7 +25,7 @@ then
         chown postgres:postgres /pgdata/photos.sql
         sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
         sudo -u postgres psql -c "ALTER ROLE postgres PASSWORD 'postgres';"
-        sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
+        sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data restart
 else
         sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
 fi
