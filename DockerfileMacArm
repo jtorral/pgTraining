@@ -1,0 +1,56 @@
+FROM rockylinux:8
+
+RUN \
+  dnf -y update \
+  && dnf install -y wget \
+  && dnf install -y curl \
+  && dnf install -y jq \
+  && dnf install -y vim \
+  && dnf install -y sudo \
+  && dnf install -y gnupg \
+  && dnf install -y openssh-server \
+  && dnf install -y openssh-clients \
+  && dnf install -y procps-ng \
+  && dnf install -y net-tools \
+  && dnf install -y iproute \
+  && dnf install -y less \
+  && dnf install -y watchdog \
+  && dnf -y install epel-release python3-pip dnf-plugins-core gnupg2 \
+  && rpm --import https://download.postgresql.org/pub/repos/yum/keys/RPM-GPG-KEY-PGDG \
+  && dnf config-manager --set-enabled powertools \
+  && dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-aarch64/pgdg-redhat-repo-latest.noarch.rpm \
+  && dnf -qy module disable postgresql \
+  && dnf install -y postgresql16-server \
+  && dnf install -y postgresql16-contrib \
+  && dnf install -y epel-release \
+  && dnf install -y libssh2 \
+  && dnf install -y pgbackrest \
+  && dnf install -y pgbouncer \
+  && python3 -m pip install --upgrade pip \ 
+  && python3 -m pip install 'patroni[etcd]==4.0.4' cdiff \
+  && dnf install -y haproxy \
+  && dnf install -y pg_repack_16 \
+  && dnf install -y pg_top \
+  && python3 -m pip install pg_activity==2.3.1
+
+
+RUN mkdir -p /pgdata/16/
+RUN chown -R postgres:postgres /pgdata
+RUN chmod 0700 /pgdata
+
+COPY pg_custom.conf /
+COPY pg_hba.conf /
+COPY pgsqlProfile /
+COPY photos.sql /
+COPY id_rsa /
+COPY id_rsa.pub /
+COPY authorized_keys /
+
+EXPOSE 22 80 443 5432 2379 2380 8432 5000 5001
+
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh 
+
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT /entrypoint.sh

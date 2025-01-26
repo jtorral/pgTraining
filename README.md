@@ -22,7 +22,8 @@ If you are running Docker and have the resources to host these on your laptop / 
 
     git clone git@github.com:jtorral/pgTraining.git
 
-### Build the image
+### Build the image using the Dockerfile in the repo. However, Some people have reported that they had to modiify the Dockerfile in order for it to work on a Mac with an ARM processor.
+### So, if you cannot get all packages working on a Mac with ARM using the default Dockerfile. Try the one named DockerfileMacArm.
 
     docker build -t pg16-rocky8-bundle .
 
