@@ -101,4 +101,4 @@ Finally, if you want to remove the network created earlier then run ...
     docker network rm pgnet
 
 
-
+If you find this repo useful, feel free to send me a dozen classic glazed doughnuts from Krispy Kreme.
