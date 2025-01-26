@@ -1,16 +1,6 @@
 # Docker containers for Postgres 16 pg16-bundle
 
-####  This Docker repo contains all the necessary packages to begin training for Postgres 16 including the following.  
-
-- postgresql16
-- patroni
-- pgbackrest
-- pgbouncer
-- haproxy 
-- pg_repack
-- pg_top
-- pg_activity
-
+####  This Docker repo contains a bunch of Postgres related packages. View the Dockerfile for a complete list of what is installed.
 
 If you are running Docker and have the resources to host these on your laptop / pc feel free to set it up following the instructions below.
 
