@@ -25,9 +25,18 @@ then
         chown postgres:postgres /pgdata/photos.sql
         sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
         sudo -u postgres psql -c "ALTER ROLE postgres PASSWORD 'postgres';"
-        sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data restart
+
+        if [ -z "$PGSTART" ]
+        then
+           sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data stop
+        else
+           sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data restart
+        fi
 else
-        sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
+        if [ -z "$PGSTART" ]
+        then
+           sudo -u postgres /usr/pgsql-16/bin/pg_ctl -D /pgdata/16/data start
+        fi
 fi
 
 
@@ -63,5 +72,10 @@ echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 rm -f /run/nologin
 
-exec tail -f /dev/null
+# /bin/bash better option than the tail -f especially without a supervisor
+# consider using dumb_init in the future as a supervisor https://github.com/Yelp/dumb-init
+ 
+/bin/bash
 
+#exec tail -f /dev/null
+#sleep infinity

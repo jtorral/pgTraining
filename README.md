@@ -35,17 +35,17 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 ### Run the 1st db containers
 
-    docker run -p 5411:5432 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -d pg16-rocky8-bundle
+    docker run -p 5411:5432 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -dt pg16-rocky8-bundle
 
 
 ### Run the 2nd db containers
 
-    docker run -p 5412:5432 --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2 --network=pgnet --name=pg2 -d pg16-rocky8-bundle
+    docker run -p 5412:5432 --env=PGPASSWORD=postgres -v pg2-pgdata:/pgdata --hostname pg2 --network=pgnet --name=pg2 -dt pg16-rocky8-bundle
 
 
 ### Run the 3rd db containers
 
-    docker run -p 5413:5432 --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3 --network=pgnet --name=pg3 -d pg16-rocky8-bundle
+    docker run -p 5413:5432 --env=PGPASSWORD=postgres -v pg3-pgdata:/pgdata --hostname pg3 --network=pgnet --name=pg3 -dt pg16-rocky8-bundle
 
 
 
@@ -54,13 +54,14 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 ### Run a container for the pgbackrest server
 
-    docker run -p 5415:5432 --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -d pg16-rocky8-bundle
+    docker run -p 5415:5432 --env=PGPASSWORD=postgres -v pgbackrest-pgdata:/pgdata --hostname pgbackrest --network=pgnet --name=pgbackrest -dt pg16-rocky8-bundle
 
 
 We will run the ETCD services on the same container as the database server.  If, we wanted them on separate conatiners we would run them like so
 
-    docker run --hostname etcd1 --network=pgnet --name=etcd1 -d pg16-rocky8-bundle
-    docker run --hostname etcd2 --network=pgnet --name=etcd2 -d pg16-rocky8-bundle
+    docker run --hostname etcd1 --network=pgnet --name=etcd1 -dt pg16-rocky8-bundle
+    docker run --hostname etcd2 --network=pgnet --name=etcd2 -dt pg16-rocky8-bundle
+    docker run --hostname etcd3 --network=pgnet --name=etcd3 -dt pg16-rocky8-bundle
 
 
 ### How to cleanup afterwards ###

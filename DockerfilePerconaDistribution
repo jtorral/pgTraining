@@ -40,7 +40,7 @@ COPY id_rsa /
 COPY id_rsa.pub /
 COPY authorized_keys /
 
-EXPOSE 22 80 443 5432 2379 2380 8432 5000 5001
+EXPOSE 22 80 443 5432 2379 2380 8432 5000 5001 8008
 
 COPY entrypoint.sh /
 
