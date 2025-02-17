@@ -33,6 +33,12 @@ If you are running Docker and have the resources to host these on your laptop / 
 
     docker network create pgnet
 
+
+### Note, the below commands will create the containers WITHOUT starting postgres
+### If you wantthe containers to start postgres automtically, add the following environment variable to each of the docker run commands below
+
+    --env=PGSTART=1
+
 ### Run the 1st db containers
 
     docker run -p 5411:5432 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -dt pg16-rocky8-bundle
