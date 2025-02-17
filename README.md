@@ -35,7 +35,7 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 
 ### Note, the below commands will create the containers WITHOUT starting postgres
-### If you wantthe containers to start postgres automtically, add the following environment variable to each of the docker run commands below
+### If you want the containers to start postgres automatically, add the following environment variable to each of the docker run commands below
 
     --env=PGSTART=1
 
