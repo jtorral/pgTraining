@@ -31,12 +31,20 @@ RUN \
   && dnf install -y haproxy \
   && dnf install -y pg_repack_16 \
   && dnf install -y pg_top \
-  && python3 -m pip install pg_activity==2.3.1
+  && python3 -m pip install pg_activity==2.3.1 \
+  && dnf install -y https://www.pgpool.net/yum/rpms/4.5/redhat/rhel-8-x86_64/pgpool-II-release-4.5-1.noarch.rpm \
+  && dnf install -y pgpool-II-pg16-extensions pgpool-II-pg16 \
+  && dnf install -y repmgr_16
+
 
 
 RUN mkdir -p /pgdata/16/
+RUN mkdir -p /pgha/{config,pgbackrest,data/{etcd,postgres}}
+
 RUN chown -R postgres:postgres /pgdata
+RUN chown -R postgres:postgres /pgha
 RUN chmod 0700 /pgdata
+RUN chmod 0700 /pgha
 
 COPY pg_custom.conf /
 COPY pg_hba.conf /
