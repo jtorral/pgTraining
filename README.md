@@ -17,7 +17,8 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 
 
-### NOTE: These are heavy images. A lot of pacakges are included for this. If you feel you want only certain packages feel free to remove the unwanted ones from the docker file you use. Typically, a dnf install option.  Lastly, The ARM version of the docker file does NOT include pgpool. 
+#### These are heavy images. A lot of postgres addon pacakges are included for this. Feel free to remove the unwanted packages from the docker file you use. Typically, a dnf install option.  
+#### Lastly, The ARM version of the docker file does NOT include pgpool. 
 
 
 
