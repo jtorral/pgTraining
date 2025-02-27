@@ -13,13 +13,12 @@ If you are running Docker and have the resources to host these on your laptop / 
     git clone git@github.com:jtorral/pgTraining.git
 
 
-## Buildng the docker image.  There are 3 Options available for this build. 
-
-
-
 #### These are heavy images. A lot of postgres addon pacakges are included for this. Feel free to remove the unwanted packages from the docker file you use. Typically, a dnf install option.  
 #### Lastly, The ARM version of the docker file does NOT include pgpool. 
 
+
+
+## Buildng the docker image.  There are 3 Options available for this build. 
 
 
 ### Standard build x86. 
