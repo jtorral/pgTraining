@@ -15,17 +15,23 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 ## Buildng the docker image.  There are 3 Options available for this build. 
 
-### Standard build x86. Copy the DockerfileX86 to Dockerfile then
 
-    docker build -t pg16-rocky8-bundle .
 
-### ARM build for Mac ARM. Copy the DockerfileMacArm to Dockerfile then
+### NOTE: These are heavy images. A lot of pacakges are included for this. If you feel you want only certain packages feel free to remove the unwanted ones from the docker file you use. Typically, a dnf install option.  Lastly, The ARM version of the docker file does NOT include pgpool. 
 
-    docker build -t pg16-rocky8-bundle .
 
-### The Percona distribution of Postgres build. Copy the DockerfilePerconaDist to Dockerfile then
 
-    docker build -t pg16-rocky8-bundle .
+### Standard build x86. 
+
+    docker build -f DockerfileX86 -t pg16-rocky8-bundle .
+
+### ARM build for Mac ARM. 
+
+    docker build -f DockerfileMacArm -t pg16-rocky8-bundle .
+
+### The Percona distribution of Postgres build. 
+
+    docker build -f DockerfilePerconaDist -t pg16-rocky8-bundle .
 
 
 
@@ -35,7 +41,7 @@ If you are running Docker and have the resources to host these on your laptop / 
 
 
 ### Note, the below commands will create the containers WITHOUT starting postgres
-### If you want the containers to start postgres automatically, add the following environment variable to each of the docker run commands below
+### If you want the containers to start postgres automatically when you start the container, add the following environment variable to each of the docker run commands below
 
     --env=PGSTART=1
 
@@ -43,6 +49,9 @@ If you are running Docker and have the resources to host these on your laptop / 
 
     docker run -p 5411:5432 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -dt pg16-rocky8-bundle
 
+Here is an example of the same command but with the start option ofor postgres.
+
+    docker run -p 5411:5432 --env=PGSTART=1 --env=PGPASSWORD=postgres -v pg1-pgdata:/pgdata --hostname pg1 --network=pgnet --name=pg1 -dt pg16-rocky8-bundle
 
 ### Run the 2nd db containers
 

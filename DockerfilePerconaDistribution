@@ -25,12 +25,17 @@ RUN \
   && dnf install -y percona-pgbackrest \
   && dnf install -y percona-pgbouncer \
   && dnf install -y percona-patroni \
-  && dnf install -y percona-haproxy
+  && dnf install -y percona-haproxy \
+  && dnf install -y percona-pgpool-II-pg16 
   
 
 RUN mkdir -p /pgdata/16/
+RUN mkdir -p /pgha/{config,pgbackrest,data/{etcd,postgres}}
 RUN chown -R postgres:postgres /pgdata
+RUN chown -R postgres:postgres /pgha
 RUN chmod 0700 /pgdata
+RUN chmod 0700 /pgha
+
 
 COPY pg_custom.conf /
 COPY pg_hba.conf /
