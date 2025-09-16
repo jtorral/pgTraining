@@ -25,6 +25,11 @@ RUN \
   && dnf install -y pg_top \
   && dnf install -y pg_activity 
 
+RUN mkdir -p /pgdata/16/
+
+RUN chown -R postgres:postgres /pgdata
+RUN chmod 0700 /pgdata
+
 COPY pg_custom.conf /
 COPY pg_hba.conf /
 COPY pgsqlProfile /
