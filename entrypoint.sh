@@ -40,31 +40,14 @@ else
 fi
 
 
-# Install etcd from google
-ETCD_VER=v3.5.17
-GOOGLE_URL=https://storage.googleapis.com/etcd
-GITHUB_URL=https://github.com/etcd-io/etcd/releases/download
-DOWNLOAD_URL=${GOOGLE_URL}
-rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
-rm -rf /tmp/etcd-download-test && mkdir -p /tmp/etcd-download-test
-curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
-tar xzvf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1
-rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
-/tmp/etcd-download-test/etcd --version
-/tmp/etcd-download-test/etcdctl version
-/tmp/etcd-download-test/etcdutl version
-cp -p /tmp/etcd-download-test/etcd /usr/bin/
-cp -p /tmp/etcd-download-test/etcdctl /usr/bin/
-cp -p /tmp/etcd-download-test/etcdutl /usr/bin/
-cd /tmp
-rm -rf /tmp/etcd-download-test
-
-
 # Setup some ssh stuff
 
-ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
-ssh-keygen -t dsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
-ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
+if [ ! -f "/etc/ssh/ssh_host_rsa_key" ]
+then
+   ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+   ssh-keygen -t dsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+   ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
+fi
 
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
